@@ -6,6 +6,7 @@ package My::List;
 use strict;
 use warnings;
 use My::Element;
+use My::Iterator;
 
 sub new{
   my $class = shift;
@@ -23,7 +24,7 @@ sub new{
 
 sub append{
   my($self, $value) = @_;
-  my $parent = $self->last;
+  my $parent = $self->_last_node;
   my $element = My::Element->new($value, $parent, undef);
   if(defined $self->last){
     $self->_last_node->set_child($element);
@@ -36,6 +37,11 @@ sub append{
 sub size{
   my $self = shift;
   return $self->{"_size"};
+}
+
+sub iterator{
+  my $self = shift;
+  return My::Iterator->new($self);
 }
 
 sub first{
@@ -54,6 +60,18 @@ sub last{
     return $last_node->value;
   }
   return undef;
+}
+
+sub is_empty{
+}
+
+sub clear{
+}
+
+sub get{
+}
+
+sub pop{
 }
 
 sub _first_node{

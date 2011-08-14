@@ -9,9 +9,9 @@ use warnings;
 sub new{
   my($class, $value, $parent, $child) = @_;
   my $self = {
-    _parent => $parent,
+    _parent => \$parent,
     _value => $value,
-    _child => $child
+    _child => \$child
   };
   return bless $self, $class;
 }
@@ -28,7 +28,7 @@ sub set_value{
 
 sub parent{
   my $self = shift;
-  my $parent = ${$self->{"_parent"}};
+  my $parent = $self->{"_parent"};
   if(defined $parent){
     return $$parent;
   }
