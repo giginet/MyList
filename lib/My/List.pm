@@ -63,15 +63,49 @@ sub last{
 }
 
 sub is_empty{
+  my $self = shift;
+  return !($self->size);
 }
 
 sub clear{
+  my $self = shift;
+  $self->{"_root"} = undef;
+  $self->{"_size"} = 0;
 }
 
 sub get{
+  my($self, $index) = @_;
+  return undef if($index < 0 or $index >= $self->size);
+  my $itr = $self->iterator;
+  foreach (0...$index-1){
+    $itr->next
+  }
+  return $itr->next->value;
 }
 
 sub pop{
+  my $self = shift;
+  my $last_node = $self->_last_node;
+  unless(defined $last_node){
+    return undef;
+  }
+  my $prev_node = $last_node->parent;
+  if(defined $prev_node){
+    $prev_node->set_child(undef);
+    $last_node->set_parent(undef);
+  }else{
+    $self->{"_root"} = undef;
+  }
+  --$self->{"_size"};
+  return $last_node->value;
+}
+
+sub to_list{
+  my $self = shift;
+  my $itr = $self->iterator;
+  my @list;
+  push(@list, $itr->next->value) while($itr->has_next);
+  return @list;
 }
 
 sub _first_node{
