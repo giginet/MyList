@@ -100,7 +100,7 @@ sub pop : Tests{
 
 sub to_array : Tests{
   my $list = My::List->new("はてな", "しなもん", "はてなようせい");
-  is_deeply [$list->to_array], ["はてな", "しなもん", "はてなようせい"], "to_listが正しく動作する";
+  is_deeply [$list->to_array], ["はてな", "しなもん", "はてなようせい"], "to_arrayが正しく動作する";
 }
 
 __PACKAGE__->runtests;
