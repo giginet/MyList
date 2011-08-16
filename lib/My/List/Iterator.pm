@@ -96,23 +96,6 @@ sub next{
   return undef;
 }
 
-sub next{
-  my $self = shift;
-  if($self->has_next){
-    my $current = $self->{"_cursor"};
-    my $list = $self->{"_list"};
-    my $next;
-    unless(defined $current){
-      $next = $$list->_first_node;
-    }else{
-      $next = $$current->child;
-    }
-    $self->{"_cursor"} = \$next;
-    return $next;
-  }
-  return undef;
-}
-
 sub prev{
   my $self = shift;
   my $current = $self->{"_cursor"};
