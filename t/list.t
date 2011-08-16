@@ -1,5 +1,5 @@
 #
-# List.pm
+# list.t
 # created by giginet on 2011/8/14
 # 
 package test::List;
