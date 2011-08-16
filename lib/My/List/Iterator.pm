@@ -5,7 +5,7 @@
 #
 =head1 モジュール名
 
-My/Iterator.pm
+My/List/Iterator.pm
 
 =head1 概要
 
@@ -44,7 +44,7 @@ giginet
 
 =cut
 
-package My::Iterator;
+package My::List::Iterator;
 use strict;
 use warnings;
 

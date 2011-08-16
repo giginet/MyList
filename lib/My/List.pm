@@ -12,13 +12,14 @@ My/List.pm
 
 =head1 使い方
 
-my $sorter = Sorter->new; 
-
-$sorter->set_values(5,4,3,2,1); 
-
-$sorter->sort;
-
-$sorter->get_values # (1,2,3,4,5)
+my $list = My::List->new;
+$list->append("Hello");
+$list->append("World");
+$list->append(2011);
+my $iter = $list->iterator;
+while ($iter->has_next) {
+  print $iter->next->value;
+}
 
 =head1 メソッド
 
@@ -92,8 +93,8 @@ giginet
 package My::List;
 use strict;
 use warnings;
-use My::Node;
-use My::Iterator;
+use My::List::Node;
+use My::List::Iterator;
 
 sub new{
   my $class = shift;
@@ -112,7 +113,7 @@ sub new{
 sub append{
   my($self, $value) = @_;
   my $parent = $self->_last_node;
-  my $node = My::Node->new($value, $parent, undef);
+  my $node = My::List::Node->new($value, $parent, undef);
   if(defined $self->last){
     $self->_last_node->set_child($node);
   }else{
@@ -153,7 +154,7 @@ sub is_empty{
 
 sub iterator{
   my $self = shift;
-  return My::Iterator->new($self);
+  return My::List::Iterator->new($self);
 }
 
 sub last{

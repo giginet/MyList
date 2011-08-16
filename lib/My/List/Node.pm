@@ -4,7 +4,7 @@
 # 
 =head1 モジュール名
 
-My/Node.pm
+My/List/Node.pm
 
 =head1 概要
 
@@ -52,7 +52,7 @@ My/Node.pm
 giginet
 
 =cut
-package My::Node;
+package My::List::Node;
 use strict;
 use warnings;
 
