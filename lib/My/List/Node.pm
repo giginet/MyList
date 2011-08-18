@@ -57,51 +57,45 @@ use strict;
 use warnings;
 
 sub new{
-  my($class, $value, $parent, $child) = @_;
-  my $self = {
-    _parent => \$parent,
-    _value => $value,
-    _child => \$child
-  };
-  return bless $self, $class;
+    my($class, $value, $parent, $child) = @_;
+    my $self = {
+        _parent => $parent,
+        _value => $value,
+        _child => $child
+    };
+    return bless $self, $class;
 }
 
 sub child{
-  my $self = shift;
-  my $child = $self->{"_child"};
-  if(defined $child){
-    return $$child;
-  }
-  return undef;
+    my $self = shift;
+    my $child = $self->{_child};
+    return $child;
 }
 
 sub parent{
-  my $self = shift;
-  my $parent = $self->{"_parent"};
-  if(defined $parent){
-    return $$parent;
-  }
-  return undef;
+    my $self = shift;
+    my $parent = $self->{_parent};
+    return $parent;
 }
 
 sub set_child{
-  my($self, $child) = @_;
-  $self->{"_child"} = \$child;
+    my($self, $child) = @_;
+    $self->{_child} = $child;
 }
 
 sub set_parent{
-  my($self, $parent) = @_;
-  $self->{"_parent"} = \$parent;
+    my($self, $parent) = @_;
+    $self->{_parent} = $parent;
 }
 
 sub set_value{
-  my($self, $value) = @_;
-  $self->{"_value"} = $value;
+    my($self, $value) = @_;
+    $self->{_value} = $value;
 }
 
 sub value{
-  my $self = shift;
-  return $self->{"_value"};
+    my $self = shift;
+    return $self->{_value};
 }
 
 1;

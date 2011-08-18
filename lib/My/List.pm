@@ -97,121 +97,118 @@ use My::List::Node;
 use My::List::Iterator;
 
 sub new{
-  my $class = shift;
-  my $elems = @_;
-  my $values = {
-    _root => undef,
-    _size => 0,
-  };
-  my $self = bless $values, $class;
-  foreach (@_){
-    $self->append($_);
-  }
-  return $self;
+    my $class = shift;
+    my $elems = @_;
+    my $values = {
+        _root => undef,
+        _size => 0,
+    };
+    my $self = bless $values, $class;
+    foreach (@_){
+        $self->append($_);
+    }
+    return $self;
 }
 
 sub append{
-  my($self, $value) = @_;
-  my $parent = $self->_last_node;
-  my $node = My::List::Node->new($value, $parent, undef);
-  if(defined $self->last){
-    $self->_last_node->set_child($node);
-  }else{
-    $self->{"_root"} = \$node;
-  }
-  ++$self->{"_size"};
+    my($self, $value) = @_;
+    my $parent = $self->_last_node;
+    my $node = My::List::Node->new($value, $parent, undef);
+    if(defined $self->last){
+        $self->_last_node->set_child($node);
+    }else{
+        $self->{_root} = $node;
+    }
+    ++$self->{_size};
 }
 
 sub clear{
-  my $self = shift;
-  $self->{"_root"} = undef;
-  $self->{"_size"} = 0;
+    my $self = shift;
+    $self->{_root} = undef;
+    $self->{_size} = 0;
 }
 
 sub first{
-  my $self = shift;
-  my $first = $self->_first_node;
-  if(defined $first){
-    return $first->value;
-  }
-  return undef;
+    my $self = shift;
+    my $first = $self->_first_node;
+    if(defined $first){
+        return $first->value;
+    }
+    return undef;
 }
 
 sub get{
-  my($self, $index) = @_;
-  return undef if($index < 0 or $index >= $self->size);
-  my $itr = $self->iterator;
-  foreach (0...$index-1){
-    $itr->next
-  }
-  return $itr->next->value;
+    my($self, $index) = @_;
+    return undef if($index < 0 or $index >= $self->size);
+    my $itr = $self->iterator;
+    foreach (0...$index-1){
+        $itr->next
+    }
+    return $itr->next->value;
 }
 
 sub is_empty{
-  my $self = shift;
-  return !($self->size);
+    my $self = shift;
+    return !($self->size);
 }
 
 sub iterator{
-  my $self = shift;
-  return My::List::Iterator->new($self);
+    my $self = shift;
+    return My::List::Iterator->new($self);
 }
 
 sub last{
-  my $self = shift;
-  my $last_node = $self->_last_node;
-  if(defined $last_node){
-    return $last_node->value;
-  }
-  return undef;
+    my $self = shift;
+    my $last_node = $self->_last_node;
+    if(defined $last_node){
+        return $last_node->value;
+    }
+    return undef;
 }
 
 sub pop{
-  my $self = shift;
-  my $last_node = $self->_last_node;
-  unless(defined $last_node){
-    return undef;
-  }
-  my $prev_node = $last_node->parent;
-  if(defined $prev_node){
-    $prev_node->set_child(undef);
-    $last_node->set_parent(undef);
-  }else{
-    $self->{"_root"} = undef;
-  }
-  --$self->{"_size"};
-  return $last_node->value;
+    my $self = shift;
+    my $last_node = $self->_last_node;
+    unless(defined $last_node){
+        return undef;
+    }
+    my $prev_node = $last_node->parent;
+    if(defined $prev_node){
+        $prev_node->set_child(undef);
+        $last_node->set_parent(undef);
+    }else{
+        $self->{_root} = undef;
+    }
+    --$self->{_size};
+    return $last_node->value;
 }
 
 sub size{
-  my $self = shift;
-  return $self->{"_size"};
+    my $self = shift;
+    return $self->{_size};
 }
 
 sub to_array{
-  my $self = shift;
-  my $itr = $self->iterator;
-  my @list;
-  push(@list, $itr->next->value) while($itr->has_next);
-  return @list;
+    my $self = shift;
+    my $itr = $self->iterator;
+    my @list;
+    push(@list, $itr->next->value) while($itr->has_next);
+    return @list;
 }
 
 sub _first_node{
-  my $self = shift;
-  my $first = $self->{"_root"};
-  if(defined $first){
-    return $$first;
-  }
-  return undef;
+    my $self = shift;
+    my $first = $self->{_root};
+    return $first;
 }
 
 sub _last_node{
-  my $self = shift;
-  my $current = $self->_first_node;
-  while($current and $current->child){
-    $current = $current->child;
-  }
-  return $current;
+    my $self = shift;
+    my $current = $self->_first_node;
+    while(defined $current and $current->{_child}){
+        $current = $current->child;
+    }
+    return $current;
 }
 
 1;
