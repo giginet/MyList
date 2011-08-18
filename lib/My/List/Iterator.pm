@@ -59,11 +59,11 @@ return bless $self, $class;
 
 sub has_next{
   my $self = shift;
-  my $current = $self->{"_cursor"};
+  my $current = $self->{_cursor};
   if(defined $current){
     return defined $current->child;
   }else{
-    my $list = $self->{"_list"};
+    my $list = $self->{_list};
     return defined $list->first;
   }
   return 0;
@@ -71,7 +71,7 @@ sub has_next{
 
 sub has_prev{
   my $self = shift;
-  my $current = $self->{"_cursor"};
+  my $current = $self->{_cursor};
   if(defined $current){
     return defined $current->parent;
   }
@@ -82,7 +82,7 @@ sub has_prev{
 sub next{
   my $self = shift;
   if($self->has_next){
-    my $current = $self->{"_cursor"};
+    my $current = $self->{_cursor};
     my $list = $self->{"_list"};
     my $next;
     unless(defined $current){
@@ -90,7 +90,7 @@ sub next{
     }else{
       $next = $current->child;
     }
-    $self->{"_cursor"} = $next;
+    $self->{_cursor} = $next;
     return $next;
   }
   return undef;
@@ -98,12 +98,12 @@ sub next{
 
 sub prev{
   my $self = shift;
-  my $current = $self->{"_cursor"};
+  my $current = $self->{_cursor};
   my $prev;
   if($self->has_prev){
     if(defined $current){
       $prev = $current->parent;
-      $self->{"_cursor"} = $prev;
+      $self->{_cursor} = $prev;
       return $prev;
     }
   }
